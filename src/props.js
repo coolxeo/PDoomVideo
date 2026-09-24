@@ -113,3 +113,20 @@ function pumpProp(x, y, s, h, hoseTo) {
   inkLine([[-18, -225], [-18, -40]], .8, '#FFFFFF', 'inkfine', 0);
   pop();
 }
+
+// feltBall(x, y, r, spin): the trio's soft striped play ball (sky / cream / orange felt). spin turns the stripes.
+function feltBall(x, y, r, spin = 0, o = {}) {
+  if (o.shadowY != null) paint(ellPts(x, o.shadowY, r * .9, r * .22, 14), { fill: PAL.ink, fillOp: 50, bleed: .25, tex: .3, border: .1, ink: null });
+  paint(ellPts(x, y, r, r, 26), { wash: PAL.cream, fill: PAL.feltDk, fillOp: 50, tex: .8, border: .6, ink: null });
+  // stripes run between two "meridians" k0..k1 (-1..1), so they curve like bands on a sphere
+  const band = (k0, k1, col) => {
+    const L = [], R = [];
+    for (let i = 0; i <= 10; i++) { const yy = lerp(-r, r, i / 10), w = Math.sqrt(Math.max(0, r * r - yy * yy)); L.push([x + k0 * w, y + yy]); R.push([x + k1 * w, y + yy]); }
+    paint([...L, ...R.reverse()], { wash: col, ink: null });
+  };
+  push(); translate(x, y); rotate(o.rot ?? -.35); translate(-x, -y);
+  const ph = frac(spin) * 2 - 1, sh = k => clamp(k + ph * .35, -1, 1);
+  band(sh(-.95), sh(-.35), '#8FC0E0'); band(sh(.3), sh(.92), PAL.beak);
+  pop();
+  paint(ellPts(x, y, r, r, 26), { ink: PAL.ink, sw: clamp(r / 30, .5, 1.4) });
+}
