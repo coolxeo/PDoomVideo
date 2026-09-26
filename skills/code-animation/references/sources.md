@@ -21,10 +21,12 @@ and keep our own house style.
 ## Internal LAN
 
 - Designer Soft Montessori / Soft Explorer felt law for Who Is Sleepy First
-- Meadow adapt notes: `/workspace/pdoom/lan-adapt/DONE.md` on the shared box
+- Meadow adapt notes live with the LAN video-gen brief set on the shared engineering box (not a public path)
 
 ## License hygiene
 
-Respect upstream licenses when vendoring code. Prefer reimplementation of ideas
-inside this repo’s JS. Apache-2.0 anidoodle NOTICE applies if we ever vendor;
-default path is citation + original code.
+See root `NOTICE` and `skills/code-animation/LICENSE`.
+
+- Skill pack paths listed in `NOTICE` are **MIT** (coolxeo).
+- Forked engine/`src` remains **upstream-origin / unlicensed** until JohnHeibel/PDoomVideo terms are clarified. Do not claim the whole repo as MIT.
+- Prefer reimplementation of third-party *ideas* inside our JS. Default path is citation + original code, not vendoring.

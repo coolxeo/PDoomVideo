@@ -20,8 +20,12 @@
       },
       "homepage": "https://github.com/coolxeo/PDoomVideo",
       "repository": "https://github.com/coolxeo/PDoomVideo",
-      "license": "MIT",
-      "keywords": ["animation", "canvas", "chestnut"],
+      "license": "SEE NOTICE",
+      "keywords": [
+        "animation",
+        "canvas",
+        "chestnut"
+      ],
       "category": "design"
     }
   ]

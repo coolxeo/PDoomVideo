@@ -1,0 +1,24 @@
+NOTICE — coolxeo/PDoomVideo
+
+This repository is a fork of https://github.com/JohnHeibel/PDoomVideo
+Upstream does not publish a LICENSE file. Until upstream terms are clarified,
+the engine and runtime under `src/`, `studio.html`, `render.mjs`, and related
+project files are **not** redistributed under MIT by coolxeo. Treat them as
+upstream-origin code with unknown license; do not assume MIT.
+
+Separately, the Little Acorn Nest **code-animation skill pack** authored by
+coolxeo is MIT-licensed. That pack is limited to:
+
+- `skills/code-animation/**`
+- `plugin.json` (Agent Plugins manifest metadata for the skill pack)
+- `.claude-plugin/**`
+- `.agents/plugins/**`
+- `scripts/link-claude-skill.sh`
+- `com.anthropic.claude-code/**`
+- root `CLAUDE.md` skill pointer sections
+
+See `skills/code-animation/LICENSE` for the MIT text covering those paths.
+
+Third-party ideas (for example style catalogs discussed in
+https://github.com/alexgreensh/anidoodle) are cited as learn-from references
+only; their engines and assets are not vendored here.

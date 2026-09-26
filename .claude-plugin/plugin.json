@@ -8,6 +8,12 @@
   "homepage": "https://github.com/coolxeo/PDoomVideo",
   "repository": "https://github.com/coolxeo/PDoomVideo",
   "version": "0.1.0",
-  "license": "MIT",
-  "keywords": ["animation", "canvas", "p5", "chestnut", "little-acorn-nest"]
+  "license": "SEE NOTICE",
+  "keywords": [
+    "animation",
+    "canvas",
+    "p5",
+    "chestnut",
+    "little-acorn-nest"
+  ]
 }

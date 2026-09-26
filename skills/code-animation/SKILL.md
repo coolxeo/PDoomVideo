@@ -94,4 +94,4 @@ If the human says "you pick", pick `soft-felt`, 16:9, and say why in one line.
 
 ## Sources
 
-Credit and learn-from list: `references/sources.md`.
+Credit and learn-from list: `references/sources.md`. License split: root `NOTICE` + `LICENSE` in this skill folder.
