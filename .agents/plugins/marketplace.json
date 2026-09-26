@@ -1,0 +1,20 @@
+{
+  "name": "coolxeo-code-animation",
+  "interface": {
+    "displayName": "code-animation by coolxeo"
+  },
+  "plugins": [
+    {
+      "name": "code-animation",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    }
+  ]
+}

@@ -3,12 +3,14 @@
 // Each chapter file calls chapter(name, start, end, shots) where shots = [[t0, fn], ...] in time order.
 // A shot function is called as fn(t, lt, dur): t = song time, lt = t - t0, dur = shot length. It paints the whole frame
 // (backgrounds included) and must be a pure function of t: frames render in parallel and out of order.
+// opts: { quiet: true } hides the karaoke over the chapter. Chapters may overlap: at a shared start the shorter one wins
+// (the meadow opener covers the first seconds of the lab this way).
 
 const CH = [];
-function chapter(name, start, end, shots) { CH.push({ name, start, end, shots }); CH.sort((a, b) => a.start - b.start); }
+function chapter(name, start, end, shots, opts = {}) { CH.push({ name, start, end, shots, ...opts }); CH.sort((a, b) => a.start - b.start || a.end - b.end); }
 
 // Chapter breaks that get a brush wipe (cover by the boundary, reveal after it).
-const WIPES = [1.5, 38.5, 73.0, 109.4];
+const WIPES = [8.0, 38.5, 73.0, 109.4];   // 8.0: meadow opener → lab
 const WIPE_TR = .3;
 
 const METER = [[23, 35.5, 8, 34], [59, 69.9, 34, 61], [95.4, 105.4, 61, 86], [123.5, 132, 86, 99.9]];
@@ -39,7 +41,7 @@ function drawWorld(t) {
   flushLetters();
   if (!METER_SHOWN) { cornerMeter(t); flushLetters(); }
   WIPES.forEach((b, j) => { if (Math.abs(t - b) < WIPE_TR) wipe((t - (b - WIPE_TR)) / (2 * WIPE_TR), j); });
-  karaoke(t);
+  if (!ch || !ch.quiet) karaoke(t);
 }
 
 function placeholder(t) {
@@ -69,7 +71,7 @@ function cornerMeter(t) {
 
 // ---------- brush wipe ----------
 // Fat paint strokes sweep across to cover the old scene, the scene swaps under full cover (p = .5), then they drag off.
-const WIPE_COLS = [[PAL.clayDk, PAL.clay], [PAL.indigo, PAL.violet], [PAL.teal, PAL.sap], [PAL.violet, PAL.rose], [PAL.ochre, PAL.clay]];
+const WIPE_COLS = [[PAL.mossDk, PAL.sage], [PAL.indigo, PAL.violet], [PAL.teal, PAL.sap], [PAL.violet, PAL.rose], [PAL.ochre, PAL.clay]];
 function wipe(p, idx) {
   const [c1, c2] = WIPE_COLS[idx % WIPE_COLS.length], n = 5, bh = (H + 420) / n + 40;
   push(); translate(W / 2, H / 2); rotate(-.1); translate(-W / 2, -H / 2);

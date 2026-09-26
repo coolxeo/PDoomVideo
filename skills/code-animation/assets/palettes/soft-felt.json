@@ -1,0 +1,29 @@
+{
+  "id": "soft-felt",
+  "label": "Soft felt watercolor (Chestnut meadow)",
+  "engine": "p5 + p5.brush wash/ink",
+  "colors": {
+    "felt": "#FBF1DF",
+    "feltDk": "#E8D2B4",
+    "quill": "#8A5A3B",
+    "quillDk": "#5C3924",
+    "nose": "#EE9AA6",
+    "blush": "#F3A9B0",
+    "bunny": "#FCF8F2",
+    "bunnyDk": "#E6DCCE",
+    "earIn": "#F4B6C0",
+    "duck": "#F8D862",
+    "duckDk": "#E2B444",
+    "beak": "#F09A4C",
+    "beakDk": "#C8702E",
+    "moss": "#9DB872",
+    "mossDk": "#6A8A4E",
+    "sage": "#C3D3A0",
+    "skySoft": "#C6E1F2",
+    "lavender": "#A996D2",
+    "eye": "#2A1E1C",
+    "ink": "#2B2233",
+    "paper": "#F3EBDC"
+  },
+  "notes": "Pull live values from src/core.js PAL; this snapshot is guidance for agents."
+}

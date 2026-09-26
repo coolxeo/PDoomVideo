@@ -5,7 +5,11 @@ const TAU = Math.PI * 2;
 const PAL = {
   paper: '#F3EBDC', ink: '#2B2233', clay: '#D97757', clayDk: '#A84D33', clayLt: '#F2A283',
   night: '#1F2550', indigo: '#2F3C7A', rose: '#E27A92', ochre: '#E8AA38', sap: '#6E9F58',
-  teal: '#3A9C98', violet: '#7B5CA8', cream: '#FFF5E2', sky: '#8EC3E6'
+  teal: '#3A9C98', violet: '#7B5CA8', cream: '#FFF5E2', sky: '#8EC3E6',
+  // Little Acorn Nest meadow felt (the cast and the meadow chapter)
+  felt: '#FBF1DF', feltDk: '#E8D2B4', quill: '#8A5A3B', quillDk: '#5C3924', nose: '#EE9AA6', blush: '#F3A9B0',
+  bunny: '#FCF8F2', bunnyDk: '#E6DCCE', earIn: '#F4B6C0', duck: '#F8D862', duckDk: '#E2B444', beak: '#F09A4C', beakDk: '#C8702E',
+  moss: '#9DB872', mossDk: '#6A8A4E', sage: '#C3D3A0', skySoft: '#C6E1F2', lavender: '#A996D2', eye: '#2A1E1C'
 };
 
 const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));

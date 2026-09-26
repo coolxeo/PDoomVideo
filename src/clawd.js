@@ -1,79 +1,9 @@
-// clawd.js: the painted Clawd. Same blocky silhouette (10x6 body, four stubby legs, two slit eyes),
-// rendered as watercolor + ink. `u` is the body unit (body is 10u wide, 8u tall including legs).
-// (x, y) is the point on the ground between the feet.
-//
-// Body-local coordinates (used by the o.draw / o.armL / o.armR hooks):
-//   body spans x -5u..5u, y -8u..-2u; eyes sit at x -3u and 2u (each 1u wide), y -7u..-5u; legs reach y 0.
-//   Arms pivot at (±4.9u, -4.5u) and are 2.2u long; o.armL / o.armR are called at the arm TIP in arm space
-//   (x runs along the arm, outward), so a held prop just draws around (0, 0).
+// clawd.js: the shared Clawd-era helpers (block-face eyes/mouth, hats, emotes, mood, dance moves) and the clawd() alias.
+// The main creature is now Chestnut the hedgehog (chestnut.js); clawd(x, y, u, o) simply draws Chestnut, so every chapter
+// that still calls clawd() or dancer() gets the hedgehog with the same footprint, options and hooks.
+// eyes() / mouth() below are the original slit-eye face, kept for the chapters that paint their own Clawd-shaped props.
 
-function clawd(x, y, u, o = {}) {
-  const dy = (o.dy || 0) * u, sq = (o.sq || 0) + (o.take || 0);
-  const sw = clamp(u / 15, .45, 2.4) * (o.swMul || 1), J = u * .07;
-  const col = o.col || PAL.clay, dk = o.dk || PAL.clayDk, lt = o.lt || '#F5B394';
-
-  if (!o.noShadow) {
-    const f = 1 - Math.min(.5, Math.abs(o.dy || 0) * .06);
-    paint(ellPts(x, y + u * .15, u * 5.6 * f, u * 1 * f, 22), { fill: PAL.ink, fillOp: 90, bleed: .25, tex: .3, border: .1, ink: null });
-  }
-
-  push();
-  translate(x, y + dy);
-  if (o.rot) rotate(o.rot);
-  scale((o.flip ? -1 : 1) * (o.sx ?? 1) * (1 + sq * .6), (o.sy ?? 1) * (1 - sq));
-
-  // legs (drawn first so the body overlaps their tops)
-  if (!o.noLegs) [-4, -2, 1, 3].forEach((lx, i) => {
-    let h = 2.2;
-    if (o.walk != null) { const ph = Math.sin((o.walk + (i % 2 ? .5 : 0)) * TAU); if (ph > 0) h = 2.2 - ph * .9; }
-    paint(rectPts(lx * u, -2.4 * u, u, h * u, J * .6), { wash: dk, washOp: 255, ink: PAL.ink, sw: sw * .8 });
-  });
-
-  // arms
-  const arm = (side, a, hook) => {
-    push(); translate(side * 4.9 * u, -4.5 * u); rotate(side < 0 ? a : -a);
-    paint(rectPts(side < 0 ? -2.2 * u : 0, -.5 * u, 2.2 * u, u, J * .6), { wash: col, washOp: 255, fill: dk, fillOp: 60, tex: .5, ink: PAL.ink, sw: sw * .8 });
-    if (hook) { translate(side * 2.2 * u, 0); if (side < 0) scale(-1, 1); hook(u, sw); }
-    pop();
-  };
-  arm(-1, o.aL ?? .2, o.armL); arm(1, o.aR ?? .2, o.armR);
-
-  const lid = o.lid || 0;
-  if (lid > .01) {
-    // lunchbox mouth: the top 2.9u of the body hinges open at the back-left corner
-    const hy = -5.1 * u;
-    paint(rectPts(-5 * u, hy, 10 * u, 3.1 * u, J), { wash: col, washOp: 255, ink: null });
-    paint(rectPts(-4.8 * u, -3.8 * u, 9.6 * u, 1.6 * u, J), { fill: dk, fillOp: 120, bleed: .03, tex: .7, border: .5, ink: null });
-    paint(rectPts(-4.4 * u, hy - .2 * u, 8.8 * u, 1.3 * u, J * .5), { wash: '#4A1F2A', ink: null });           // throat
-    paint(ellPts(0, hy + .6 * u, 2.4 * u, .45 * u, 14), { wash: PAL.rose, ink: null });                         // tongue
-    for (let i = 0; i < 6; i++) { const tx = -4.2 * u + i * 1.6 * u; paint([[tx, hy - .1 * u], [tx + 1.3 * u, hy - .1 * u], [tx + .65 * u, hy + .8 * u]], { wash: PAL.cream, ink: PAL.ink, sw: sw * .45 }); }
-    paint(rectPts(-5 * u, hy, 10 * u, 3.1 * u, J), { ink: PAL.ink, sw });
-    push(); translate(-5 * u, hy); rotate(-lid * 1.25); translate(5 * u, -hy);
-    paint(rectPts(-5 * u, -8 * u, 10 * u, 2.9 * u, J), { wash: col, washOp: 255, ink: null });
-    paint(ellPts(-1.6 * u, -6.9 * u, 3.2 * u, 1 * u, 16, J), { fill: lt, fillOp: 110, bleed: .15, tex: .8, border: .8, ink: null });
-    for (let i = 0; i < 6; i++) { const tx = -4.2 * u + i * 1.6 * u; paint([[tx, hy + .1 * u], [tx + 1.3 * u, hy + .1 * u], [tx + .65 * u, hy - .8 * u]], { wash: PAL.cream, ink: PAL.ink, sw: sw * .45 }); }
-    paint(rectPts(-5 * u, -8 * u, 10 * u, 2.9 * u, J), { ink: PAL.ink, sw });
-    eyes(u, o, sw);
-    hat(u, o.hat, sw);
-    pop();
-  } else {
-    // body: flat base so it reads, a lighter pool up top and a darker settle along the bottom, ink last
-    const body = rectPts(-5 * u, -8 * u, 10 * u, 6 * u, J);
-    paint(body, { wash: col, washOp: 255, ink: null });
-    paint(ellPts(-1.6 * u, -6.4 * u, 3.4 * u, 1.5 * u, 18, J * 2, -.08), { fill: lt, fillOp: 120, bleed: .2, tex: .85, border: .8, ink: null });
-    paint(rectPts(-4.8 * u, -3.8 * u, 9.6 * u, 1.6 * u, J), { fill: dk, fillOp: 120, bleed: .03, tex: .7, border: .5, ink: null });
-    paint(body, { ink: PAL.ink, sw });
-
-    if (o.blush) for (const bx of [-3.6, 3.6]) paint(ellPts(bx * u, -4.6 * u, u * .8, u * .4, 14), { fill: PAL.rose, fillOp: 150, bleed: .2, ink: null });
-    if (o.hat === 'mask') paint([[-5.5 * u, -7.7 * u], [5.5 * u, -7.7 * u], [4.4 * u, -4.7 * u], [.6 * u, -5.4 * u], [-.6 * u, -5.4 * u], [-4.4 * u, -4.7 * u]], { wash: PAL.violet, ink: PAL.ink, sw: sw * .7 });
-    eyes(u, o, sw);
-    mouth(u, o.mouth, sw);
-    hat(u, o.hat, sw);
-  }
-  if (o.draw) o.draw(u, sw);
-  pop();
-  if (o.emote) emote(o.emote, x + (o.flip ? -1 : 1) * 5.4 * u, y + dy - 8.6 * u, u * .9, o.emoteK ?? 1);
-}
+function clawd(x, y, u, o = {}) { chestnut(x, y, u, o); }
 
 function mouth(u, m, sw) {
   if (!m) return;
