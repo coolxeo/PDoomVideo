@@ -1,0 +1,28 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "coolxeo-code-animation",
+  "owner": {
+    "name": "coolxeo",
+    "email": "coolxeo@gmail.com"
+  },
+  "metadata": {
+    "description": "LAN Chestnut world code-animation skill pack"
+  },
+  "plugins": [
+    {
+      "name": "code-animation",
+      "source": "./",
+      "description": "Little Acorn Nest browser code-animation: soft-felt house style, experiments, show pipeline.",
+      "version": "0.1.0",
+      "author": {
+        "name": "coolxeo",
+        "url": "https://github.com/coolxeo"
+      },
+      "homepage": "https://github.com/coolxeo/PDoomVideo",
+      "repository": "https://github.com/coolxeo/PDoomVideo",
+      "license": "MIT",
+      "keywords": ["animation", "canvas", "chestnut"],
+      "category": "design"
+    }
+  ]
+}
